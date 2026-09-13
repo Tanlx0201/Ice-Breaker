@@ -610,36 +610,36 @@ const BASE_QUESTIONS = {
 
 const TOPIC_METADATA = {
     "Life": {
-        color: "#8B5CF6",
-        lightColor: "#EDE9FE",
+        color: "#FB7185",
+        lightColor: "#FFE4E6",
         icon: "fa-heart-pulse",
         tagVi: "Cuộc sống",
         tagEn: "Life",
-        gradient: "linear-gradient(135deg, #8B5CF6, #6D28D9)"
+        gradient: "linear-gradient(135deg, #FB7185, #E11D48)"
     },
     "Random": {
-        color: "#3B82F6",
-        lightColor: "#DBEAFE",
+        color: "#F43F5E",
+        lightColor: "#FFF1F2",
         icon: "fa-dice",
         tagVi: "Ngẫu nhiên",
         tagEn: "Random",
-        gradient: "linear-gradient(135deg, #3B82F6, #1D4ED8)"
+        gradient: "linear-gradient(135deg, #F43F5E, #BE123C)"
     },
     "Deep": {
-        color: "#10B981",
-        lightColor: "#D1FAE5",
+        color: "#E11D48",
+        lightColor: "#FFE4E6",
         icon: "fa-brain",
         tagVi: "Chiều sâu",
         tagEn: "Deep",
-        gradient: "linear-gradient(135deg, #10B981, #047857)"
+        gradient: "linear-gradient(135deg, #E11D48, #881337)"
     },
     "Experiences": {
-        color: "#F59E0B",
-        lightColor: "#FEF3C7",
+        color: "#FB923C",
+        lightColor: "#FFEDD5",
         icon: "fa-compass",
         tagVi: "Trải nghiệm",
         tagEn: "Experiences",
-        gradient: "linear-gradient(135deg, #F59E0B, #B45309)"
+        gradient: "linear-gradient(135deg, #FB923C, #C2410C)"
     },
     "If you could...": {
         color: "#EC4899",
@@ -647,15 +647,15 @@ const TOPIC_METADATA = {
         icon: "fa-wand-magic-sparkles",
         tagVi: "Nếu bạn có thể...",
         tagEn: "If you could...",
-        gradient: "linear-gradient(135deg, #EC4899, #BE185D)"
+        gradient: "linear-gradient(135deg, #EC4899, #9D174D)"
     },
     "Would you rather...": {
-        color: "#6366F1",
-        lightColor: "#E0E7FF",
+        color: "#D946EF",
+        lightColor: "#FAE8FF",
         icon: "fa-scale-balanced",
         tagVi: "Bạn thà chọn...",
         tagEn: "Would you rather...",
-        gradient: "linear-gradient(135deg, #6366F1, #4338CA)"
+        gradient: "linear-gradient(135deg, #D946EF, #86198F)"
     }
 };
 

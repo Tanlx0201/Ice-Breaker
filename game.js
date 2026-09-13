@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // UI Translation Strings
     const I18N = {
         vi: {
-            brandSubtitle: "Phiên bản Casino VIP",
+            brandSubtitle: "Phiên bản Hồng Đào VIP",
             tabWheel: "Vòng Quay Roulette",
             tabCards: "Lật Bài Ma Thuật",
             tabSlots: "Máy Kéo Slots 777",
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rarityLegendary: "Huyền thoại"
         },
         en: {
-            brandSubtitle: "High-Roller VIP Edition",
+            brandSubtitle: "Peach Blossom VIP Edition",
             tabWheel: "Roulette Wheel",
             tabCards: "Mystery Card Flip",
             tabSlots: "Vegas 777 Slots",
@@ -421,12 +421,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const reel3Strip = document.getElementById('reel3Strip');
 
     const REEL1_ITEMS = [
-        { topic: "Life", icon: "fa-heart-pulse", labelVi: "Cuộc sống", labelEn: "Life", color: "#8B5CF6" },
-        { topic: "Random", icon: "fa-dice", labelVi: "Hài hước", labelEn: "Random", color: "#3B82F6" },
-        { topic: "Deep", icon: "fa-brain", labelVi: "Chiều sâu", labelEn: "Deep", color: "#10B981" },
-        { topic: "Experiences", icon: "fa-compass", labelVi: "Trải nghiệm", labelEn: "Experience", color: "#F59E0B" },
+        { topic: "Life", icon: "fa-heart-pulse", labelVi: "Cuộc sống", labelEn: "Life", color: "#FB7185" },
+        { topic: "Random", icon: "fa-dice", labelVi: "Hài hước", labelEn: "Random", color: "#F43F5E" },
+        { topic: "Deep", icon: "fa-brain", labelVi: "Chiều sâu", labelEn: "Deep", color: "#E11D48" },
+        { topic: "Experiences", icon: "fa-compass", labelVi: "Trải nghiệm", labelEn: "Experience", color: "#FB923C" },
         { topic: "If you could...", icon: "fa-wand-magic-sparkles", labelVi: "Nếu có thể...", labelEn: "If could...", color: "#EC4899" },
-        { topic: "Would you rather...", icon: "fa-scale-balanced", labelVi: "Thà chọn...", labelEn: "Rather...", color: "#6366F1" }
+        { topic: "Would you rather...", icon: "fa-scale-balanced", labelVi: "Thà chọn...", labelEn: "Rather...", color: "#D946EF" }
     ];
 
     const REEL2_ITEMS = [
@@ -648,7 +648,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let particlesRunning = false;
 
     function triggerConfetti() {
-        const colors = ['#ffd700', '#f59e0b', '#ec4899', '#06b6d4', '#10b981', '#fff'];
+        const colors = ['#FDA4AF', '#FB7185', '#F43F5E', '#FED7AA', '#FFF1F2', '#EC4899'];
         for (let i = 0; i < 60; i++) {
             particles.push({
                 x: window.innerWidth / 2,
