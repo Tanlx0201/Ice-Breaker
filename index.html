@@ -1,415 +1,250 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ice Breaker Game</title>
+    <title>Ice Breaker: Casino & Gambling Edition | High-Roller Party Game</title>
+    <meta name="description" content="Trò chơi phá băng phong cách Casino đỉnh cao: Vòng quay Roulette, Lật thẻ bài 3D, Máy kéo Slots 777 hồi hộp và thú vị!">
     <link rel="icon" type="image/jpg" href="ice_icon.jpg">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            background-image: url('background.jpg');
-            background-size: auto;           /* Show image in original size */
-            background-repeat: no-repeat;     /* Do not repeat the image */
-            background-position: center;
-        }
-        .fade-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .fade-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        .question-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            max-width: 90%;
-            width: 600px;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-        .fade-overlay.active .question-card {
-            transform: translateY(0);
-        }
-        .topic-btn:hover .topic-icon {
-            transform: scale(1.1);
-            transition: transform 0.3s ease;
-        }
-    </style>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gradient-to-br from-blue-100 via-cyan-100 to-purple-200 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <header class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500 mb-4 flex items-center justify-center gap-3">
-                <i class="fas fa-ice-cream text-blue-400"></i>
-                Ice Breaker Game
-            </h1>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                Break the ice with fun, random questions! Click on any topic to get started.
-            </p>
+<body>
+    <!-- Confetti & Celebration Canvas -->
+    <canvas id="particlesCanvas"></canvas>
+
+    <div class="app-container">
+        <!-- VIP Casino Header -->
+        <header class="casino-header">
+            <div class="brand-section">
+                <div class="casino-logo-icon">
+                    <i class="fas fa-dice-d20"></i>
+                </div>
+                <div>
+                    <h1 class="brand-title">ICE BREAKER</h1>
+                    <div class="brand-subtitle" id="brandSubtitle">Phiên bản Casino VIP</div>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <!-- Custom Questions Button -->
+                <button class="btn-icon" id="openCustomModalBtn" title="Thêm & Quản lý câu hỏi tùy chỉnh">
+                    <i class="fas fa-pen-to-square"></i>
+                </button>
+
+                <!-- Audio Toggle Button -->
+                <button class="btn-icon" id="audioToggleBtn" title="Bật/Tắt âm thanh Casino">
+                    <i class="fas fa-volume-high"></i>
+                </button>
+
+                <!-- Language Toggle Button -->
+                <button class="lang-btn" id="langToggleBtn" title="Chuyển đổi ngôn ngữ">
+                    🇻🇳 VN
+                </button>
+            </div>
         </header>
 
-        <!-- Topic Selection -->
-        <div class="max-w-4xl mx-auto">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" id="topicSelection">
-                <div class="topic-btn cursor-pointer">
-                    <div class="bg-white rounded-xl shadow-md p-6 h-full flex flex-col items-center text-center hover:shadow-lg transition-shadow">
-                        <div class="topic-icon bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                            <i class="fas fa-users text-purple-600 text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Life</h3>
-                        <p class="text-gray-600 mb-4">Personal questions to get know more about your life</p>
-                        <span class="mt-auto bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                            50 questions
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="topic-btn cursor-pointer">
-                    <div class="bg-white rounded-xl shadow-md p-6 h-full flex flex-col items-center text-center hover:shadow-lg transition-shadow">
-                        <div class="topic-icon bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                            <i class="fas fa-random text-blue-600 text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Random</h3>
-                        <p class="text-gray-600 mb-4">Random questions to lighten the mood</p>
-                        <span class="mt-auto bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                            50 questions
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="topic-btn cursor-pointer">
-                    <div class="bg-white rounded-xl shadow-md p-6 h-full flex flex-col items-center text-center hover:shadow-lg transition-shadow">
-                        <div class="topic-icon bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                            <i class="fas fa-brain text-green-600 text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Deep</h3>
-                        <p class="text-gray-600 mb-4">50 philosophical questions to spark discussion</p>
-                        <span class="mt-auto bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                            50 questions
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="topic-btn cursor-pointer">
-                    <div class="bg-white rounded-xl shadow-md p-6 h-full flex flex-col items-center text-center hover:shadow-lg transition-shadow">
-                        <div class="topic-icon bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                            <i class="fas fa-history text-yellow-600 text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Experiences</h3>
-                        <p class="text-gray-600 mb-4">Questions to learn more about your memorial experiences</p>
-                        <span class="mt-auto bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                            50 questions
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="topic-btn cursor-pointer">
-                    <div class="bg-white rounded-xl shadow-md p-6 h-full flex flex-col items-center text-center hover:shadow-lg transition-shadow">
-                        <div class="topic-icon bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                            <i class="fas fa-cloud text-red-600 text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">If you could...</h3>
-                        <p class="text-gray-600 mb-4">Selection questions regarding various cases: 'If you could...'</p>
-                        <span class="mt-auto bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                            50 questions
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="topic-btn cursor-pointer">
-                    <div class="bg-white rounded-xl shadow-md p-6 h-full flex flex-col items-center text-center hover:shadow-lg transition-shadow">
-                        <div class="topic-icon bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                            <i class="fas fa-laugh-beam text-indigo-600 text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Would you rather...</h3>
-                        <p class="text-gray-600 mb-4">Selection questions regarding various cases: 'Would you rather...'</p>
-                        <span class="mt-auto bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                            50 questions
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Game Mode Selection Navigation -->
+        <nav class="game-mode-tabs">
+            <button class="tab-btn active" data-mode="wheel" id="tabWheelBtn">
+                <i class="fas fa-dharmachakra"></i>
+                <span id="tabWheelText">Vòng Quay Roulette</span>
+            </button>
+            <button class="tab-btn" data-mode="cards" id="tabCardsBtn">
+                <i class="fas fa-layer-group"></i>
+                <span id="tabCardsText">Lật Bài Ma Thuật</span>
+            </button>
+            <button class="tab-btn" data-mode="slots" id="tabSlotsBtn">
+                <i class="fas fa-gem"></i>
+                <span id="tabSlotsText">Máy Kéo Slots 777</span>
+            </button>
+        </nav>
 
-        <!-- Question Overlay -->
-        <div class="fade-overlay" id="questionOverlay">
-            <div class="question-card">
-                <div id="topicDisplay" class="inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4"></div>
-                <h3 id="questionText" class="text-2xl md:text-3xl font-medium text-gray-800 mb-8 text-center"></h3>
-                <div class="flex justify-center gap-4">
-                    <button id="nextBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full">
-                        Next Question
-                    </button>
-                    <button id="closeBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-full">
-                        Close
-                    </button>
-                </div>
-            </div>
-        </div>
+        <!-- Main Casino Stage -->
+        <main class="casino-stage">
+            <!-- MODE 1: LUCKY ROULETTE WHEEL -->
+            <section class="mode-view active" id="wheelView">
+                <div class="wheel-arena">
+                    <div class="wheel-frame">
+                        <div class="wheel-studs"></div>
+                        <!-- Top Indicator Needle -->
+                        <div class="wheel-pointer" id="wheelPointer">
+                            <div class="pointer-arrow"></div>
+                        </div>
+                        <!-- Canvas Wheel -->
+                        <canvas id="wheelCanvas"></canvas>
+                        <!-- Center Gold Hub -->
+                        <div class="wheel-center-hub" id="wheelCenterHub">
+                            <i class="fas fa-play"></i>
+                            <span id="wheelCenterText">QUAY</span>
+                        </div>
+                    </div>
 
-        <footer class="text-center text-gray-500 text-sm mt-12">
-            <p>Made with <i class="fas fa-heart text-red-500"></i> for fun conversations</p>
+                    <div class="wheel-controls">
+                        <button class="btn-casino-spin" id="spinWheelBtn">
+                            <i class="fas fa-rotate"></i>
+                            <span id="spinWheelBtnText">QUAY VÒNG ROULETTE</span>
+                        </button>
+                        <p style="font-size: 0.8rem; color: #64748b; margin-top: 0.4rem;">Phím tắt: Nhấn [Space] để quay</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODE 2: 3D CARD FLIP TABLE -->
+            <section class="mode-view" id="cardsView">
+                <div class="cards-arena">
+                    <div class="cards-table-header">
+                        <p class="table-instruction" id="tableInstructionText">Chọn một lá bài định mệnh từ sòng bạc hoàng gia:</p>
+                    </div>
+                    <div class="cards-container" id="cardsContainer">
+                        <!-- Cards injected by game.js -->
+                    </div>
+                    <div class="card-controls">
+                        <button class="btn-casino-spin" id="dealCardsBtn">
+                            <i class="fas fa-shuffle"></i>
+                            <span id="dealCardsBtnText">TRÁO VÀ CHIA LẠI BÀI</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODE 3: VEGAS 777 SLOTS -->
+            <section class="mode-view" id="slotsView">
+                <div class="slots-arena">
+                    <div class="slot-cabinet">
+                        <!-- Pull Lever -->
+                        <div class="slot-lever-assembly" id="slotLever" title="Nhấp để giật cần!">
+                            <div class="lever-base"></div>
+                            <div class="lever-rod">
+                                <div class="lever-knob"></div>
+                            </div>
+                        </div>
+
+                        <div class="slot-marquee">
+                            <h3>★ ICE SLOTS 777 ★</h3>
+                        </div>
+
+                        <div class="slot-window">
+                            <div class="payline"></div>
+                            
+                            <!-- Reel 1: Category -->
+                            <div class="reel-box">
+                                <div class="reel-strip" id="reel1Strip"></div>
+                            </div>
+                            <!-- Reel 2: Modifier -->
+                            <div class="reel-box">
+                                <div class="reel-strip" id="reel2Strip"></div>
+                            </div>
+                            <!-- Reel 3: Target -->
+                            <div class="reel-box">
+                                <div class="reel-strip" id="reel3Strip"></div>
+                            </div>
+                        </div>
+
+                        <div class="slot-controls">
+                            <button class="btn-casino-spin" id="spinSlotsBtn">
+                                <i class="fas fa-bolt"></i>
+                                <span id="spinSlotsBtnText">GIẬT CẦN SLOTS</span>
+                            </button>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.8rem; color: #64748b; margin-top: 1rem;">Nhấp vào nút bấm hoặc cần gạt đỏ bên phải để quay!</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="casino-footer">
+            <p>Ice Breaker Casino Edition • Được thiết kế với phong cách cờ bạc sang trọng & giải trí cao</p>
         </footer>
     </div>
 
-    <script>
-        // Question database
-        const questions = {
-            "Life": [
-                "What book have you read recently that you would recommend and why?",
-                "What's the best gift you've ever received?",
-                "What's the last thing you completed on your bucket list?",
-                "What's the biggest purchase you ever made?",
-                "What show on Netflix did you binge watch embarrassingly fast?",
-                "What activity or sport did you try as a kid and fail at?",
-                "What is one family tradition you would like to carry on in the future?",
-                "What one accomplishment are you most proud of?",
-                "What was your first job?",
-                "Who's someone you really admire?",
-                "What important truth do very few people agree with you on?",
-                "Who in your life inspires you to be better?",
-                "What do the first 30 mins of your typical day look like?",
-                "What's your love language?",
-                "What was the first thing you remember buying with your own money?",
-                "What's your favorite family tradition?",
-                "What book has made the biggest impact on your life?",
-                "Who had the most influence on you growing up?",
-                "What's something you believed earlier in your career but think about differently now?",
-                "What's your favorite board game?",
-                "What's a skill you learned when you were young that you still use today?",
-                "What's your best scare story?",
-                "What was your favorite subject in school?",
-                "What activity do you enjoy so much that it makes you lose track of time?",
-                "When you were younger, what did you want to be when you grew up?",
-            ],
-            "Random": [
-                "What's your dream job if money didn't matter?",
-                "What's the thing you like that creeps other people out?",
-                "Have you been told you look like someone famous, who was it?",
-                "What's the last random thing that made you smile?",
-                "Which piece are you when you play Monopoly?",
-                "What was the last foreign country you visited?",
-                "Which celebrity do you shamelessly follow in the news?",
-                "What would your rap name be?",
-                "What's your most used emoji?",
-                "What's the last thing you bought for under $50 that you love and use often?",
-                "If you have to relive the same day for the rest of your life, which day would you choose?",
-                "Have you had your 15 minutes of fame yet?",
-                "Which season fits your personality?",
-                "What's your guilty pleasure?",
-                "What's something about you that surprises people when they first hear it?",
-                "What's your favorite quote?",
-                "Which famous person have you met?",
-                "If you could have any fictional character as your friend, who would you choose and why?",
-                "Who are three people you want on your team if there was a zombie apocalypse?",
-                "What's the best hotel you've ever stayed in and why?",
-                "You're at a cafe, what type of drink do you order?",
-                "Who would you like to play you in a movie?",
-                "Are you a morning or a night person?",
-                "What's the last product you returned?",
-                "Are you a cat or a dog person?",
-    
-            ],
-            "Deep": [
-                "What was the hardest decision you've ever had to make?",
-                "What's the most illegal thing you've done?",
-                "What is something you think everyone should do at least once in their lives?",
-                "What thing are you most scared to tell your parents?",
-                "What is something you are certain you'll never experience and why?",
-                "What are you most looking forward to in the next 10 years?",
-                "What were the three biggest turning points in your life?",
-                "What mistake do you keep making over and over again?",
-                "What do you believe in despite having no proof of it?",
-                "What are some of your personal rules that you refuse to break?",
-                "How do you get in the way of your own success?",
-                "What stereotype do you completely live up to?",
-                "In what way do you feel your childhood was happier than others?",
-                "What do you regret not doing when you were younger?",
-                "What's the most surprising self-realization you've had?",
-                "If you had to change your name what would you change it to?",
-                "What's something you disagree with about the way you were raised?",
-                "What is a mistake people often make about you?",
-                "When was the last time you cried and why?",
-                "What are you most worried about with the next generation?",
-                "What's something you are self-conscious about?",
-                "What chance encounter changed your life forever?",
-                "What are the top three things on your bucket list?",
-                "What's one thing you did that you wish you could go back and undo?",
-            ],
-            "Experiences": [
-                "What's the first concert you ever went to?",
-                "Describe your worst date ever.",
-                "What's the best thing about the opposite gender?",
-                "What's the best compliment you've ever received?",
-                "What's something you will NEVER do again?",
-                "What's something you did as a child that your parents still retell the story about?",
-                "What's the best advice you've ever received?",
-                "What's one of your pet peeves?",
-                "What's the worst job you've ever had?",
-                "What's the best job you ever had?",
-                "What state or country do you never want to go back to?",
-                "What's the most embarrassing thing that's happened to you during a date?",
-                "What is your worst habit?",
-                "What opportunity for love or money have you given up? Do you regret it now?",
-                "What's your dream car?",
-                "What have you bought that you love so much you would happily buy it again?",
-                "How did you meet your best friend?",
-                "What's the best date you've ever been on?",
-                "Who was your first love and when?",
-                "What's the wildest party you've ever been to?",
-                "What's the first music you bought?",
-                "What was your first car?",
-                "What's your most powerful and vivid memory?",
-                "What was the worst haircut you've ever had?",
-                "Who's the worst boss you've ever had and why?",
-],
-            "If you could...": [
-                "If you could change one thing about the way you were raised, what would you change?",
-                "If you could have any celebrity be your best friend, who would it be?",
-                "If you could only eat one meal every day for the rest of your life, what would it be?",
-                "If you could only drink one type of alcohol for the rest of your life, what would you choose?",
-                "If you could be famous, what would you want to be famous for?",
-                "If you could switch places with one of your friends for a day, who would it be?",
-                "If you could go back in time, what one thing would you tell your teenage self?",
-                "If you could create one holiday, what would you create?",
-                "If you could meet any historical figure, who would you choose and why?",
-                "If you could have any superpower, what would you choose?",
-                "If you could live in a sitcom, which one would it be and why?",
-                "If you could get away with a crime, what crime would you commit?",
-                "If you could pick up a skill instantly, what would it be?",
-                "If you could arm wrestle any historical figure, who would you choose and why?",
-                "If you could compete in the Olympics, which sport would you choose?",
-                "If you could only have five apps on your phone, what would they be?",
-                "If you could know when and how you are going to die, would you want to know?",
-                "If you could solve one world problem, what would it be?",
-                "If you could buy your dream house, what is one weird room or feature you would have?",
-                "If you could instantly be an expert in a subject, what would it be?",
-                "If you could write a book, what would it be about?",
-                "If you could never work again, how would you spend your time?",
-                "If you could visit any place in the world, where would it be and why?",
-                "If you could do anything in the next year, what would it be?",
-                "If you could only keep three things from your home, what would you pick and why?"
-            ],
-            "Would you rather...": [
-                "Would you rather not have arms or legs, and why?",
-                "Would you rather win the lottery or live twice as long?",
-                "Would you rather always have gas or always have bad breath?",
-                "Would you rather date someone you love or date someone who loves you?",
-                "Would you rather be slightly late or super early?",
-                "Would you rather watch a movie at home or at the movie theatre?",
-                "Would you rather date someone you met online or go on a blind date?",
-                "Would you rather hear the good news or the bad news?",
-                "Would you rather never read another book or never watch another movie?",
-                "Would you rather be gossiped about or never talked about at all?",
-                "Would you rather win a Grammy or an Oscar?",
-                "Would you rather be proposed to in private or in front of family and friends?",
-                "Would you rather have a cook or a maid?",
-                "Would you rather explore space or the ocean?",
-                "Would you rather be too hot or too cold?",
-                "Would you rather have a rewind or pause button on your life?",
-                "Would you rather live in an apartment in the city or a mansion in the country?",
-                "Would you rather be rich or famous?",
-                "Would you rather be the funniest or smartest person in the room?",
-                "Would you rather be the star player on a losing football team or ride the bench on a winning one?",
-                "Would you rather give up your smartphone or your computer?",
-                "Would you rather experience the beginning of planet earth or the end of planet earth?",
-                "Would you rather end the life of one human or 100 puppies and kittens?",
-                "Would you rather save money or save time?",
-                "Would you rather die before your partner or after?"
-        ]
-        };
+    <!-- JACKPOT QUESTION OVERLAY MODAL -->
+    <div class="modal-backdrop" id="jackpotModal">
+        <div class="jackpot-modal-card">
+            <button class="modal-close-x" id="modalCloseBtn">
+                <i class="fas fa-xmark"></i>
+            </button>
 
-        // DOM elements
-        const questionOverlay = document.getElementById('questionOverlay');
-        const nextBtn = document.getElementById('nextBtn');
-        const closeBtn = document.getElementById('closeBtn');
-        const topicDisplay = document.getElementById('topicDisplay');
-        const questionText = document.getElementById('questionText');
-        const topicBtns = document.querySelectorAll('.topic-btn');
+            <div class="jackpot-banner" id="modalTopicBadge">
+                <i class="fas fa-crown"></i>
+                <span>Chủ đề</span>
+            </div>
 
-        // Current state
-        let currentTopic = '';
-        let usedQuestions = [];
+            <div class="modal-question-text" id="modalQuestionText">
+                Nội dung câu hỏi đang tải...
+            </div>
 
-        // Event listeners
-        nextBtn.addEventListener('click', showQuestion);
-        closeBtn.addEventListener('click', hideQuestion);
-        
-        topicBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const topic = this.querySelector('h3').textContent;
-                startGame(topic);
-            });
-        });
+            <div class="modal-secondary-text" id="modalSecondaryText"></div>
 
-        // Functions
-        function showQuestion() {
-            if (!currentTopic) return;
-            
-            // Get all questions for current topic
-            const topicQuestions = questions[currentTopic];
-            
-            // Filter out used questions
-            const availableQuestions = topicQuestions.filter(q => !usedQuestions.includes(q));
-            
-            if (availableQuestions.length === 0) {
-                // If all questions have been used, reset used questions
-                usedQuestions = [];
-                questionText.textContent = "We've gone through all questions in this topic! Starting over...";
-                return;
-            }
-            
-            // Select a random question
-            const randomQuestion = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
-            usedQuestions.push(randomQuestion);
-            
-            // Update UI
-            topicDisplay.textContent = currentTopic;
-            topicDisplay.className = 'inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 ';
-            
-            // Set color based on topic
-            if (currentTopic === "Getting to Know You") {
-                topicDisplay.classList.add('bg-purple-100', 'text-purple-800');
-            } else if (currentTopic === "Fun & Funny") {
-                topicDisplay.classList.add('bg-blue-100', 'text-blue-800');
-            } else if (currentTopic === "Deep Thoughts") {
-                topicDisplay.classList.add('bg-green-100', 'text-green-800');
-            } else if (currentTopic === "Childhood Memories") {
-                topicDisplay.classList.add('bg-yellow-100', 'text-yellow-800');
-            } else if (currentTopic === "Travel & Adventure") {
-                topicDisplay.classList.add('bg-red-100', 'text-red-800');
-            } else {
-                topicDisplay.classList.add('bg-indigo-100', 'text-indigo-800');
-            }
-            
-            questionText.textContent = randomQuestion;
-        }
+            <div class="modal-action-row">
+                <button class="btn-secondary" id="copyQuestionBtn">
+                    <i class="fas fa-copy"></i>
+                    <span id="copyBtnText">Sao chép câu hỏi</span>
+                </button>
+                <button class="btn-secondary" id="nextQuestionBtn" style="background: rgba(245, 158, 11, 0.2); border-color: #f59e0b; color: #ffd700;">
+                    <i class="fas fa-arrow-right"></i>
+                    <span id="nextBtnText">Đổi câu khác</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
-        function startGame(topic) {
-            currentTopic = topic;
-            usedQuestions = [];
-            showQuestion();
-            questionOverlay.classList.add('active');
-        }
+    <!-- CUSTOM QUESTION MANAGER MODAL -->
+    <div class="modal-backdrop" id="customModal">
+        <div class="custom-modal-card">
+            <button class="modal-close-x" id="closeCustomModalBtn">
+                <i class="fas fa-xmark"></i>
+            </button>
 
-        function hideQuestion() {
-            questionOverlay.classList.remove('active');
-        }
-    </script>
+            <h3 style="font-family: var(--font-heading); color: #ffd700; margin-bottom: 1.25rem; font-size: 1.3rem;">
+                <i class="fas fa-pen-nib"></i> Quản lý câu hỏi của bạn
+            </h3>
+
+            <form id="customQuestionForm">
+                <div class="custom-form-group">
+                    <label for="customTopicSelect">Chọn chủ đề</label>
+                    <select id="customTopicSelect" class="custom-select">
+                        <option value="Life">Life (Cuộc sống)</option>
+                        <option value="Random">Random (Ngẫu nhiên)</option>
+                        <option value="Deep">Deep (Chiều sâu)</option>
+                        <option value="Experiences">Experiences (Trải nghiệm)</option>
+                        <option value="If you could...">If you could... (Nếu bạn có thể...)</option>
+                        <option value="Would you rather...">Would you rather... (Bạn thà chọn...)</option>
+                    </select>
+                </div>
+
+                <div class="custom-form-group">
+                    <label for="customQuestionInput">Nội dung câu hỏi</label>
+                    <textarea id="customQuestionInput" class="custom-input" rows="3" placeholder="Nhập câu hỏi độc lạ của bạn vào đây..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-casino-spin" style="font-size: 0.95rem; padding: 0.65rem 1.6rem; width: 100%; justify-content: center;">
+                    <i class="fas fa-plus"></i> Lưu vào kho câu hỏi
+                </button>
+            </form>
+
+            <div style="margin-top: 1.5rem;">
+                <h4 style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                    Các câu hỏi bạn đã thêm:
+                </h4>
+                <div class="custom-list" id="customQuestionsList">
+                    <!-- Injected by game.js -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="casino-toast" id="casinoToast">
+        <i class="fas fa-bell" style="color: #ffd700;"></i>
+        <span id="toastText">Thông báo!</span>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="questions.js"></script>
+    <script src="audio.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>
