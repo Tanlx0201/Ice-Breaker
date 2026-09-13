@@ -157,7 +157,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (mode === 'cards') dealCardHand();
-            if (mode === 'wheel') drawWheel();
+            if (mode === 'wheel') {
+                const currentSize = getWheelLayoutSize();
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                if (canvas.width !== Math.round(currentSize * dpr) || canvas.height !== Math.round(currentSize * dpr)) {
+                    resizeCanvas();
+                }
+            }
         });
     });
 
@@ -174,6 +180,31 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentDeg = 0;
     let lastSectorIndex = -1;
     let lastTickTime = 0;
+    let lastKnownWheelSize = 352;
+
+    function getWheelLayoutSize() {
+        // clientWidth / clientHeight give the layout box (UNTRANSFORMED by CSS rotate)
+        // getBoundingClientRect() returns the rotated axis-aligned bounding box which expands dynamically!
+        let w = canvas.clientWidth;
+        let h = canvas.clientHeight;
+
+        if (!w || !h) {
+            const frame = canvas.parentElement;
+            if (frame && frame.clientWidth) {
+                w = frame.clientWidth - 28;
+                h = frame.clientHeight - 28;
+            }
+        }
+
+        if (!w || w <= 0) w = lastKnownWheelSize || 352;
+        if (!h || h <= 0) h = lastKnownWheelSize || 352;
+
+        const size = Math.round(Math.min(w, h));
+        if (canvas.offsetParent !== null && size > 0) {
+            lastKnownWheelSize = size;
+        }
+        return size;
+    }
 
     function initWheelSectors() {
         const baseTopics = qManager.getAllTopics();
@@ -190,11 +221,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function resizeCanvas() {
-        const rect = canvas.getBoundingClientRect();
+        if (!canvas) return;
+        // If wheel tab is currently hidden (display: none), skip resize until tab is activated
+        if (canvas.offsetParent === null && lastKnownWheelSize > 0) return;
+
+        const size = getWheelLayoutSize();
+        if (size <= 0) return;
+
         // Cap DPR to 2 to save GPU texture memory on mobile screens with 3x DPR
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
+        const targetPixelSize = Math.round(size * dpr);
+
+        if (canvas.width !== targetPixelSize || canvas.height !== targetPixelSize) {
+            canvas.width = targetPixelSize;
+            canvas.height = targetPixelSize;
+        }
+
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.scale(dpr, dpr);
         drawWheel();
@@ -202,12 +244,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function drawWheel() {
         if (!canvas || sectors.length === 0) return;
-        const rect = canvas.getBoundingClientRect();
-        const width = rect.width;
-        const height = rect.height;
-        const centerX = width / 2;
-        const centerY = height / 2;
-        const radius = width / 2 - 8;
+        const size = getWheelLayoutSize();
+        const width = size;
+        const height = size;
+        const centerX = size / 2;
+        const centerY = size / 2;
+        const radius = size / 2 - 8;
         const arc = (2 * Math.PI) / sectors.length;
 
         ctx.clearRect(0, 0, width, height);
