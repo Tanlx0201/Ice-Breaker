@@ -1,40 +1,36 @@
 /* ==========================================================================
-   ICE BREAKER: THEME HỒNG ĐÀO (PEACH BLOSSOM & ROSE GOLD VIP CASINO)
-   Design Theme: Luxury Rose Gold, Velvet Peach & Radiant Soft Neon
+   ICE BREAKER: CASINO & GAMBLING EDITION - STYLESHEET
+   Design Theme: Vegas Luxury VIP Lounge & Cyber Neon Glow
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-    /* Backgrounds: Deep Velvet Rose Noir */
-    --bg-dark: #12070e;
-    --bg-surface: #1e0c18;
-    --bg-card: rgba(38, 17, 30, 0.88);
-    --bg-card-hover: rgba(58, 25, 46, 0.95);
+    --bg-dark: #07090e;
+    --bg-surface: #0e131f;
+    --bg-card: rgba(18, 24, 40, 0.85);
+    --bg-card-hover: rgba(28, 38, 64, 0.95);
     
-    /* Peach Blossom & Rose Gold Palette */
-    --gold-primary: #fb7185; /* Peach Rose primary */
-    --gold-glow: #fda4af;    /* Peach blossom glow */
-    --gold-light: #fff1f2;   /* Creamy blush */
-    --gold-dark: #e11d48;    /* Deep rose accent */
-    --gold-gradient: linear-gradient(135deg, #fed7aa 0%, #fb7185 50%, #e11d48 100%);
-    --gold-border: linear-gradient(135deg, rgba(254, 215, 170, 0.85), rgba(251, 113, 133, 0.4), rgba(254, 205, 211, 0.7));
+    --gold-primary: #f59e0b;
+    --gold-glow: #fbbf24;
+    --gold-light: #fef3c7;
+    --gold-dark: #b45309;
+    --gold-gradient: linear-gradient(135deg, #ffd700 0%, #f59e0b 50%, #b45309 100%);
+    --gold-border: linear-gradient(135deg, rgba(255, 215, 0, 0.8), rgba(245, 158, 11, 0.3), rgba(255, 215, 0, 0.6));
 
-    /* Neon Accents: Harmonious Peach, Sakura & Coral */
-    --neon-cyan: #fda4af;
-    --neon-purple: #f43f5e;
-    --neon-pink: #fb7185;
-    --neon-emerald: #fb923c;
-    --neon-red: #e11d48;
+    --neon-cyan: #06b6d4;
+    --neon-purple: #a855f7;
+    --neon-pink: #ec4899;
+    --neon-emerald: #10b981;
+    --neon-red: #ef4444;
 
-    /* Typography Colors */
-    --text-main: #fff5f6;
-    --text-muted: #d4a5b8;
-    --text-gold: #fecdd3;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-gold: #fcd34d;
 
     --font-heading: 'Cinzel', serif;
     --font-body: 'Outfit', sans-serif;
-    --glass-border: 1px solid rgba(251, 113, 133, 0.22);
+    --glass-border: 1px solid rgba(255, 215, 0, 0.18);
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
 }
 
@@ -53,9 +49,9 @@ body {
     overflow-x: hidden;
     position: relative;
     background-image: 
-        radial-gradient(circle at 50% 10%, rgba(251, 113, 133, 0.18) 0%, transparent 45%),
-        radial-gradient(circle at 10% 90%, rgba(244, 63, 94, 0.14) 0%, transparent 45%),
-        radial-gradient(circle at 90% 80%, rgba(254, 215, 170, 0.14) 0%, transparent 45%);
+        radial-gradient(circle at 50% 10%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 10% 90%, rgba(168, 85, 247, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
 }
 
 /* Background Animated Canvas */
@@ -92,7 +88,7 @@ body {
     justify-content: space-between;
     gap: 1rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(251, 113, 133, 0.2);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.15);
     margin-bottom: 2rem;
 }
 
@@ -111,8 +107,8 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.6rem;
-    color: #fff;
-    box-shadow: 0 0 20px rgba(251, 113, 133, 0.45);
+    color: #0b0f19;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
     position: relative;
 }
 
@@ -121,10 +117,10 @@ body {
     font-size: 1.6rem;
     font-weight: 900;
     letter-spacing: 1px;
-    background: linear-gradient(90deg, #fff 15%, #fed7aa 45%, #fb7185 80%, #f43f5e 100%);
+    background: linear-gradient(90deg, #fff 20%, #ffd700 60%, #f59e0b 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 30px rgba(251, 113, 133, 0.35);
+    text-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
 }
 
 .brand-subtitle {
@@ -135,7 +131,7 @@ body {
     font-weight: 600;
 }
 
-/* VIP Header Controls */
+/* VIP Stats & Controls */
 .header-actions {
     display: flex;
     align-items: center;
@@ -143,12 +139,36 @@ body {
     gap: 0.75rem;
 }
 
+.chips-badge {
+    background: rgba(14, 19, 31, 0.85);
+    border: 1px solid var(--gold-primary);
+    border-radius: 9999px;
+    padding: 0.45rem 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+}
+
+.chips-badge i {
+    color: #fbbf24;
+    font-size: 1.1rem;
+    animation: pulse 2s infinite;
+}
+
+.chips-amount {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #ffd700;
+}
+
 .btn-icon {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(251, 113, 133, 0.25);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     color: var(--text-main);
     display: flex;
     align-items: center;
@@ -159,11 +179,11 @@ body {
 }
 
 .btn-icon:hover {
-    background: rgba(251, 113, 133, 0.2);
+    background: rgba(245, 158, 11, 0.15);
     border-color: var(--gold-primary);
     color: var(--gold-glow);
     transform: translateY(-2px);
-    box-shadow: 0 0 15px rgba(251, 113, 133, 0.35);
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
 }
 
 .lang-btn {
@@ -172,21 +192,21 @@ body {
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.5px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(251, 113, 133, 0.35);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.25);
     color: var(--gold-light);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .lang-btn:hover {
-    background: var(--gold-gradient);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(251, 113, 133, 0.45);
+    background: var(--gold-primary);
+    color: #0b0f19;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
 }
 
 /* ==========================================================================
-   NAVIGATION & GAME TABS
+   NAVIGATION & GAMBLING TABS
    ========================================================================== */
 
 .game-mode-tabs {
@@ -198,9 +218,9 @@ body {
 }
 
 .tab-btn {
-    background: rgba(30, 12, 24, 0.7);
+    background: rgba(14, 19, 31, 0.7);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(251, 113, 133, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     color: var(--text-muted);
     padding: 0.75rem 1.6rem;
     border-radius: 9999px;
@@ -220,21 +240,55 @@ body {
 }
 
 .tab-btn:hover {
-    border-color: rgba(251, 113, 133, 0.5);
+    border-color: rgba(245, 158, 11, 0.4);
     color: var(--text-main);
     transform: translateY(-2px);
 }
 
 .tab-btn.active {
-    background: linear-gradient(135deg, rgba(251, 113, 133, 0.28), rgba(244, 63, 94, 0.08));
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(234, 179, 8, 0.05));
     border-color: var(--gold-primary);
     color: var(--gold-glow);
-    box-shadow: 0 0 25px rgba(251, 113, 133, 0.3), inset 0 0 12px rgba(251, 113, 133, 0.15);
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.25), inset 0 0 12px rgba(245, 158, 11, 0.1);
 }
 
 .tab-btn.active i {
     transform: scale(1.15);
     color: var(--gold-glow);
+}
+
+/* Party Dare Toggle Pill */
+.dare-toggle-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+}
+
+.dare-pill {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px dashed rgba(239, 68, 68, 0.4);
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.dare-pill.active {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: var(--neon-red);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.35);
+    color: #fee2e2;
+}
+
+.dare-pill i {
+    color: var(--neon-red);
 }
 
 /* ==========================================================================
@@ -263,7 +317,7 @@ body {
 }
 
 /* ==========================================================================
-   MODE 1: LUCKY ROULETTE WHEEL (HỒNG ĐÀO EDITION)
+   MODE 1: LUCKY ROULETTE WHEEL
    ========================================================================== */
 
 .wheel-arena {
@@ -282,23 +336,23 @@ body {
     max-height: 90vw;
     border-radius: 50%;
     padding: 14px;
-    background: radial-gradient(circle, #381223 0%, #1e0913 70%, #0d0307 100%);
+    background: radial-gradient(circle, #2d1f05 0%, #151006 70%, #080603 100%);
     box-shadow: 
-        0 0 0 6px #fb7185,
-        0 0 0 12px #50172e,
-        0 0 45px rgba(251, 113, 133, 0.45),
-        inset 0 0 30px rgba(0, 0, 0, 0.85);
+        0 0 0 6px #f59e0b,
+        0 0 0 12px #3e2808,
+        0 0 45px rgba(245, 158, 11, 0.4),
+        inset 0 0 30px rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Blinking rim studs */
+/* Blinking casino rim studs */
 .wheel-studs {
     position: absolute;
     inset: 4px;
     border-radius: 50%;
-    border: 2px dashed rgba(254, 205, 211, 0.7);
+    border: 2px dashed rgba(255, 215, 0, 0.6);
     pointer-events: none;
     animation: rotateSlow 40s linear infinite;
 }
@@ -337,7 +391,7 @@ body {
     height: 0;
     border-left: 16px solid transparent;
     border-right: 16px solid transparent;
-    border-top: 36px solid #fecdd3;
+    border-top: 36px solid #ffd700;
     position: relative;
 }
 
@@ -350,7 +404,7 @@ body {
     height: 0;
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
-    border-top: 30px solid #fb7185;
+    border-top: 30px solid #f59e0b;
 }
 
 /* Center Hub Spin Button */
@@ -359,9 +413,9 @@ body {
     width: 76px;
     height: 76px;
     border-radius: 50%;
-    background: radial-gradient(circle, #fff1f2 0%, #fb7185 60%, #be123c 100%);
+    background: radial-gradient(circle, #ffd700 0%, #d97706 70%, #92400e 100%);
     border: 4px solid #fff;
-    box-shadow: 0 0 22px rgba(251, 113, 133, 0.85), 0 4px 12px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.8), 0 4px 12px rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -374,7 +428,7 @@ body {
 
 .wheel-center-hub:hover {
     transform: scale(1.08);
-    box-shadow: 0 0 32px rgba(253, 164, 175, 1);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 1);
 }
 
 .wheel-center-hub:active {
@@ -385,13 +439,13 @@ body {
     font-family: var(--font-heading);
     font-weight: 900;
     font-size: 0.95rem;
-    color: #fff;
+    color: #0b0f19;
     letter-spacing: 1px;
 }
 
 .wheel-center-hub i {
     font-size: 0.75rem;
-    color: #fff;
+    color: #0b0f19;
 }
 
 /* Spin Controls */
@@ -405,7 +459,7 @@ body {
 
 .btn-casino-spin {
     background: var(--gold-gradient);
-    color: #fff;
+    color: #080a0f;
     font-family: var(--font-heading);
     font-weight: 900;
     font-size: 1.15rem;
@@ -414,7 +468,7 @@ body {
     border: none;
     border-radius: 9999px;
     cursor: pointer;
-    box-shadow: 0 0 30px rgba(251, 113, 133, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 30px rgba(245, 158, 11, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4);
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -424,7 +478,7 @@ body {
 
 .btn-casino-spin:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 0 45px rgba(251, 113, 133, 0.8), inset 0 2px 6px rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 45px rgba(255, 215, 0, 0.8), inset 0 2px 6px rgba(255, 255, 255, 0.6);
 }
 
 .btn-casino-spin:active {
@@ -439,7 +493,7 @@ body {
 }
 
 /* ==========================================================================
-   MODE 2: 3D CARD FLIP TABLE (ROSE GOLD MYSTERY CARDS)
+   MODE 2: 3D CARD FLIP TABLE (MYSTERY CARDS)
    ========================================================================== */
 
 .cards-arena {
@@ -501,10 +555,10 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
-/* Card Back (Facedown - Peach Velvet Filigree) */
+/* Card Back (Facedown - Luxury Royal Filigree) */
 .card-back {
-    background: radial-gradient(circle at center, #2e1222 0%, #14050f 100%);
-    border: 2px solid #fda4af;
+    background: radial-gradient(circle at center, #1b2438 0%, #0c101a 100%);
+    border: 2px solid #ffd700;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -516,10 +570,10 @@ body {
     position: absolute;
     inset: 6px;
     border-radius: 10px;
-    border: 1px solid rgba(251, 113, 133, 0.45);
+    border: 1px solid rgba(255, 215, 0, 0.4);
     background: 
-        repeating-linear-gradient(45deg, rgba(251, 113, 133, 0.08) 0, rgba(251, 113, 133, 0.08) 4px, transparent 0, transparent 8px),
-        repeating-linear-gradient(-45deg, rgba(251, 113, 133, 0.08) 0, rgba(251, 113, 133, 0.08) 4px, transparent 0, transparent 8px);
+        repeating-linear-gradient(45deg, rgba(255, 215, 0, 0.05) 0, rgba(255, 215, 0, 0.05) 4px, transparent 0, transparent 8px),
+        repeating-linear-gradient(-45deg, rgba(255, 215, 0, 0.05) 0, rgba(255, 215, 0, 0.05) 4px, transparent 0, transparent 8px);
 }
 
 .card-back-symbol {
@@ -533,8 +587,8 @@ body {
 
 .card-back-symbol i {
     font-size: 2.2rem;
-    color: #fecdd3;
-    filter: drop-shadow(0 0 10px rgba(251, 113, 133, 0.7));
+    color: #ffd700;
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.7));
 }
 
 .card-back-symbol span {
@@ -542,14 +596,14 @@ body {
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 2px;
-    color: #ffe4e6;
+    color: #fef08a;
     text-transform: uppercase;
 }
 
 /* Card Front (Faceup - Revealing Question/Topic) */
 .card-front {
     transform: rotateY(180deg);
-    background: #1c0b15;
+    background: #0f172a;
     border: 2px solid var(--gold-primary);
     padding: 1rem 0.8rem;
     display: flex;
@@ -574,7 +628,7 @@ body {
 }
 
 .card-stars {
-    color: #fb7185;
+    color: #ffd700;
     font-size: 0.7rem;
 }
 
@@ -590,7 +644,7 @@ body {
 .card-question-preview {
     font-size: 0.82rem;
     line-height: 1.35;
-    color: #fff5f6;
+    color: #f1f5f9;
     font-weight: 500;
     display: -webkit-box;
     -webkit-line-clamp: 5;
@@ -620,7 +674,7 @@ body {
 }
 
 /* ==========================================================================
-   MODE 3: VEGAS 777 SLOT MACHINE (ROSE GOLD LUXURY)
+   MODE 3: VEGAS 777 SLOT MACHINE
    ========================================================================== */
 
 .slots-arena {
@@ -635,14 +689,14 @@ body {
     position: relative;
     width: 520px;
     max-width: 95vw;
-    background: linear-gradient(180deg, #3d1425 0%, #1c0812 100%);
-    border: 4px solid #fb7185;
+    background: linear-gradient(180deg, #2a1f0a 0%, #151109 100%);
+    border: 4px solid #ffd700;
     border-radius: 24px;
     padding: 1.5rem;
     box-shadow: 
-        0 0 0 6px #5e1c39,
-        0 0 45px rgba(251, 113, 133, 0.45),
-        0 20px 40px rgba(0, 0, 0, 0.85);
+        0 0 0 6px #5e410b,
+        0 0 45px rgba(245, 158, 11, 0.4),
+        0 20px 40px rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -651,28 +705,28 @@ body {
 /* Slot Marquee Header */
 .slot-marquee {
     width: 100%;
-    background: #14050d;
-    border: 2px solid rgba(254, 205, 211, 0.6);
+    background: #0d0a04;
+    border: 2px solid rgba(255, 215, 0, 0.6);
     border-radius: 12px;
     padding: 0.6rem 1rem;
     text-align: center;
     margin-bottom: 1.25rem;
-    box-shadow: inset 0 0 15px rgba(251, 113, 133, 0.35);
+    box-shadow: inset 0 0 15px rgba(245, 158, 11, 0.3);
 }
 
 .slot-marquee h3 {
     font-family: var(--font-heading);
     font-size: 1.4rem;
     letter-spacing: 3px;
-    color: #ffe4e6;
-    text-shadow: 0 0 14px rgba(251, 113, 133, 0.9);
+    color: #ffd700;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
 }
 
 /* 3 Reels Display Window */
 .slot-window {
     width: 100%;
-    background: #0d0308;
-    border: 3px solid #be123c;
+    background: #06090e;
+    border: 3px solid #b45309;
     border-radius: 16px;
     padding: 0.75rem;
     display: flex;
@@ -689,8 +743,8 @@ body {
     transform: translateY(-50%);
     width: 100%;
     height: 4px;
-    background: rgba(251, 113, 133, 0.85);
-    box-shadow: 0 0 12px rgba(251, 113, 133, 0.9);
+    background: rgba(239, 68, 68, 0.75);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
     pointer-events: none;
     z-index: 5;
 }
@@ -698,9 +752,9 @@ body {
 .reel-box {
     flex: 1;
     height: 160px;
-    background: linear-gradient(180deg, #200a15 0%, #331122 50%, #200a15 100%);
+    background: linear-gradient(180deg, #111624 0%, #1c243a 50%, #111624 100%);
     border-radius: 10px;
-    border: 1px solid rgba(251, 113, 133, 0.35);
+    border: 1px solid rgba(255, 215, 0, 0.3);
     overflow: hidden;
     position: relative;
     box-shadow: inset 0 10px 15px rgba(0, 0, 0, 0.8), inset 0 -10px 15px rgba(0, 0, 0, 0.8);
@@ -737,6 +791,11 @@ body {
     color: #fff;
 }
 
+.reel-item-sub {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
 /* Physical Pull Lever */
 .slot-lever-assembly {
     position: absolute;
@@ -754,8 +813,8 @@ body {
     top: 40px;
     width: 18px;
     height: 40px;
-    background: #3e1225;
-    border: 2px solid #fda4af;
+    background: #332107;
+    border: 2px solid #ffd700;
     border-radius: 0 8px 8px 0;
 }
 
@@ -765,7 +824,7 @@ body {
     top: 0;
     width: 8px;
     height: 60px;
-    background: linear-gradient(90deg, #fecdd3, #f43f5e);
+    background: linear-gradient(90deg, #e2e8f0, #94a3b8);
     border-radius: 4px;
     transform-origin: bottom center;
     transition: transform 0.4s ease;
@@ -778,8 +837,8 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: radial-gradient(circle, #fda4af 30%, #e11d48 100%);
-    box-shadow: 0 0 15px rgba(244, 63, 94, 0.85);
+    background: radial-gradient(circle, #ef4444 30%, #991b1b 100%);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.8);
 }
 
 .slot-lever-assembly.pulled .lever-rod {
@@ -799,7 +858,7 @@ body {
 .modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(18, 5, 14, 0.88);
+    background: rgba(4, 6, 12, 0.85);
     backdrop-filter: blur(14px);
     z-index: 100;
     display: flex;
@@ -817,7 +876,7 @@ body {
 }
 
 .jackpot-modal-card {
-    background: radial-gradient(circle at top, #301324 0%, #12050e 100%);
+    background: radial-gradient(circle at top, #1e293b 0%, #0a0e17 100%);
     border: 2px solid var(--gold-primary);
     border-radius: 24px;
     max-width: 620px;
@@ -825,7 +884,7 @@ body {
     padding: 2.2rem;
     position: relative;
     box-shadow: 
-        0 0 50px rgba(251, 113, 133, 0.4),
+        0 0 50px rgba(245, 158, 11, 0.35),
         0 25px 50px -12px rgba(0, 0, 0, 0.9);
     transform: translateY(30px) scale(0.95);
     transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -863,7 +922,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    background: rgba(251, 113, 133, 0.18);
+    background: rgba(245, 158, 11, 0.15);
     border: 1px solid var(--gold-primary);
     padding: 0.4rem 1.2rem;
     border-radius: 9999px;
@@ -880,7 +939,7 @@ body {
     font-size: 1.45rem;
     line-height: 1.5;
     font-weight: 600;
-    color: #fff5f6;
+    color: #f8fafc;
     margin-bottom: 1.5rem;
     min-height: 80px;
     display: flex;
@@ -893,7 +952,7 @@ body {
     color: var(--text-muted);
     font-style: italic;
     margin-bottom: 1.5rem;
-    border-top: 1px dashed rgba(255, 255, 255, 0.12);
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
     padding-top: 1rem;
 }
 
@@ -907,7 +966,7 @@ body {
 
 .btn-secondary {
     background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(251, 113, 133, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     color: var(--text-main);
     padding: 0.75rem 1.4rem;
     border-radius: 9999px;
@@ -921,8 +980,8 @@ body {
 }
 
 .btn-secondary:hover {
-    background: rgba(251, 113, 133, 0.2);
-    border-color: rgba(251, 113, 133, 0.5);
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
 }
 
@@ -939,7 +998,6 @@ body {
     padding: 2rem;
     text-align: left;
     position: relative;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
 .custom-form-group {
@@ -956,8 +1014,8 @@ body {
 
 .custom-input, .custom-select {
     width: 100%;
-    background: #140710;
-    border: 1px solid rgba(251, 113, 133, 0.3);
+    background: #090c14;
+    border: 1px solid rgba(255, 215, 0, 0.3);
     border-radius: 10px;
     padding: 0.75rem 1rem;
     color: #fff;
@@ -969,7 +1027,7 @@ body {
 
 .custom-input:focus, .custom-select:focus {
     border-color: var(--gold-glow);
-    box-shadow: 0 0 10px rgba(251, 113, 133, 0.35);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
 }
 
 .custom-list {
@@ -982,8 +1040,8 @@ body {
 }
 
 .custom-item {
-    background: #140710;
-    border: 1px solid rgba(251, 113, 133, 0.15);
+    background: #090c14;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 8px;
     padding: 0.6rem 0.8rem;
     display: flex;
@@ -993,7 +1051,7 @@ body {
 }
 
 .btn-delete-custom {
-    color: #f43f5e;
+    color: #ef4444;
     background: none;
     border: none;
     cursor: pointer;
@@ -1014,7 +1072,7 @@ body {
     color: #fff;
     padding: 0.75rem 1.4rem;
     border-radius: 9999px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(251, 113, 133, 0.35);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(245, 158, 11, 0.3);
     display: flex;
     align-items: center;
     gap: 0.6rem;
@@ -1042,7 +1100,7 @@ body {
     text-align: center;
     font-size: 0.85rem;
     color: var(--text-muted);
-    border-top: 1px solid rgba(251, 113, 133, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .casino-footer a {
@@ -1085,17 +1143,8 @@ body {
     }
     
     .wheel-frame {
-        width: 300px;
-        height: 300px;
-    }
-
-    .wheel-center-hub {
-        width: 64px;
-        height: 64px;
-    }
-
-    .wheel-center-hub span {
-        font-size: 0.85rem;
+        width: 310px;
+        height: 310px;
     }
     
     .card-wrapper {
@@ -1108,7 +1157,7 @@ body {
     }
 
     .slot-lever-assembly {
-        display: none;
+        display: none; /* Hide side lever on very narrow screens, spin button still works */
     }
     
     .modal-question-text {
