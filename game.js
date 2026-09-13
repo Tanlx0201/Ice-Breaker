@@ -171,10 +171,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const wheelCenterHub = document.getElementById('wheelCenterHub');
 
     let sectors = [];
-    let currentAngle = 0;
-    let spinVelocity = 0;
-    let spinDecel = 0;
+    let currentDeg = 0;
     let lastSectorIndex = -1;
+    let lastTickTime = 0;
 
     function initWheelSectors() {
         const baseTopics = qManager.getAllTopics();
@@ -192,16 +191,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function resizeCanvas() {
         const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width * window.devicePixelRatio;
-        canvas.height = rect.height * window.devicePixelRatio;
-        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        // Cap DPR to 2 to save GPU texture memory on mobile screens with 3x DPR
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
         drawWheel();
     }
 
     function drawWheel() {
         if (!canvas || sectors.length === 0) return;
-        const width = canvas.width / window.devicePixelRatio;
-        const height = canvas.height / window.devicePixelRatio;
+        const rect = canvas.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
         const centerX = width / 2;
         const centerY = height / 2;
         const radius = width / 2 - 8;
@@ -210,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.clearRect(0, 0, width, height);
 
         sectors.forEach((sec, i) => {
-            const angle = currentAngle + i * arc;
+            const angle = i * arc;
 
             // Draw Sector Arc
             ctx.beginPath();
@@ -225,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.beginPath();
             ctx.moveTo(centerX, centerY);
             ctx.arc(centerX, centerY, radius, angle, angle + arc);
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
             ctx.fill();
             ctx.restore();
 
@@ -246,18 +249,18 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.textAlign = 'right';
             ctx.fillStyle = '#ffffff';
             ctx.font = 'bold 13px "Outfit", sans-serif';
-            ctx.shadowColor = 'rgba(0,0,0,0.8)';
-            ctx.shadowBlur = 4;
+            ctx.shadowColor = 'rgba(0,0,0,0.6)';
+            ctx.shadowBlur = 2;
 
             const label = currentLang === 'vi' ? sec.labelVi : sec.labelEn;
-            ctx.fillText(label, radius - 26, 5);
+            ctx.fillText(label, radius - 24, 5);
             ctx.restore();
 
             // Golden Pegs around perimeter
             const pegX = centerX + (radius - 2) * Math.cos(angle);
             const pegY = centerY + (radius - 2) * Math.sin(angle);
             ctx.beginPath();
-            ctx.arc(pegX, pegY, 3.5, 0, 2 * Math.PI);
+            ctx.arc(pegX, pegY, 3, 0, 2 * Math.PI);
             ctx.fillStyle = '#ffd700';
             ctx.fill();
             ctx.strokeStyle = '#fff';
@@ -271,32 +274,47 @@ document.addEventListener('DOMContentLoaded', () => {
         isSpinning = true;
         spinWheelBtn.disabled = true;
 
-        // Randomized initial velocity & deceleration
-        spinVelocity = Math.random() * 0.15 + 0.35;
-        spinDecel = 0.991 + Math.random() * 0.004;
+        // Smooth physics calculation: 5 to 8 full rotations + randomized target slice
+        const fullSpins = 5 + Math.floor(Math.random() * 3);
+        const extraDeg = Math.floor(Math.random() * 360);
+        const targetDeg = currentDeg + fullSpins * 360 + extraDeg;
 
-        function animateWheel() {
-            currentAngle += spinVelocity;
-            currentAngle %= (2 * Math.PI);
-            spinVelocity *= spinDecel;
+        const startTime = performance.now();
+        const duration = 4000; // 4 seconds total
+        const startDeg = currentDeg;
+        const totalDistance = targetDeg - startDeg;
 
-            const arc = (2 * Math.PI) / sectors.length;
-            const pointerAngle = (3 * Math.PI / 2 - currentAngle + 4 * Math.PI) % (2 * Math.PI);
-            const currentSectorIdx = Math.floor(pointerAngle / arc);
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
+        }
+
+        function step(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(1, elapsed / duration);
+            const easeProgress = easeOutCubic(progress);
+
+            currentDeg = startDeg + totalDistance * easeProgress;
+            // Hardware-accelerated GPU transform rotation (ZERO canvas redraws during spin!)
+            canvas.style.transform = `rotate(${currentDeg}deg)`;
+
+            // Pointer position is at Top (270 degrees)
+            const normalizedDeg = ((currentDeg % 360) + 360) % 360;
+            const pointerAngleDeg = (270 - normalizedDeg + 360) % 360;
+            const arcDeg = 360 / sectors.length;
+            const currentSectorIdx = Math.floor(pointerAngleDeg / arcDeg);
 
             if (currentSectorIdx !== lastSectorIndex) {
                 lastSectorIndex = currentSectorIdx;
-                audio.playTick();
-                wheelPointer.style.transform = 'translateX(-50%) rotate(-12deg)';
-                setTimeout(() => {
-                    wheelPointer.style.transform = 'translateX(-50%) rotate(0deg)';
-                }, 60);
+                if (now - lastTickTime > 45) { // Throttle tick audio on mobile
+                    audio.playTick();
+                    lastTickTime = now;
+                }
+                wheelPointer.classList.add('tick');
+                setTimeout(() => wheelPointer.classList.remove('tick'), 40);
             }
 
-            drawWheel();
-
-            if (spinVelocity > 0.002) {
-                requestAnimationFrame(animateWheel);
+            if (progress < 1) {
+                requestAnimationFrame(step);
             } else {
                 isSpinning = false;
                 spinWheelBtn.disabled = false;
@@ -306,11 +324,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const winnerSector = sectors[currentSectorIdx];
                 setTimeout(() => {
                     revealQuestion(winnerSector.topic);
-                }, 300);
+                }, 350);
             }
         }
 
-        requestAnimationFrame(animateWheel);
+        requestAnimationFrame(step);
     }
 
     spinWheelBtn.addEventListener('click', spinWheel);
@@ -627,21 +645,27 @@ document.addEventListener('DOMContentLoaded', () => {
         particlesCanvas.height = window.innerHeight;
     }
 
+    let particlesRunning = false;
+
     function triggerConfetti() {
         const colors = ['#ffd700', '#f59e0b', '#ec4899', '#06b6d4', '#10b981', '#fff'];
-        for (let i = 0; i < 90; i++) {
+        for (let i = 0; i < 60; i++) {
             particles.push({
                 x: window.innerWidth / 2,
                 y: window.innerHeight / 2,
-                vx: (Math.random() - 0.5) * 16,
-                vy: (Math.random() - 0.7) * 16,
-                size: Math.random() * 6 + 4,
+                vx: (Math.random() - 0.5) * 14,
+                vy: (Math.random() - 0.7) * 14,
+                size: Math.random() * 5 + 3,
                 color: colors[Math.floor(Math.random() * colors.length)],
                 rotation: Math.random() * 360,
-                rSpeed: (Math.random() - 0.5) * 10,
+                rSpeed: (Math.random() - 0.5) * 8,
                 alpha: 1,
-                decay: Math.random() * 0.015 + 0.01
+                decay: Math.random() * 0.015 + 0.012
             });
+        }
+        if (!particlesRunning) {
+            particlesRunning = true;
+            requestAnimationFrame(animateParticles);
         }
     }
 
@@ -649,6 +673,11 @@ document.addEventListener('DOMContentLoaded', () => {
         pCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
 
         particles = particles.filter(p => p.alpha > 0.01);
+        if (particles.length === 0) {
+            particlesRunning = false;
+            return; // STOP animation loop when idle!
+        }
+
         particles.forEach(p => {
             p.x += p.vx;
             p.y += p.vy;
@@ -691,7 +720,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initWheelSectors();
     resizeCanvas();
     resizeParticles();
-    animateParticles();
     updateAudioButton();
     applyLanguage(currentLang);
 });
